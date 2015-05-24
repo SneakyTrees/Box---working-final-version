@@ -1,0 +1,96 @@
+    public static boolean anyPointsAreInRightTriangle(Coordinates startPoint, Coordinates ninetyDegreePoint, Coordinates endPoint, Coordinates[] testPoints) {
+        
+         if(
+         !(Math.abs(startPoint.getX()-ninetyDegreePoint.getX())  BoxGameFramework.UNIVERSAL_EPSILON && Math.abs(endPoint.getY()-ninetyDegreePoint.getY())  BoxGameFramework.UNIVERSAL_EPSILON) 
+         !(Math.abs(endPoint.getX()-ninetyDegreePoint.getX())   BoxGameFramework.UNIVERSAL_EPSILON && Math.abs(startPoint.getY()-ninetyDegreePoint.getY())  BoxGameFramework.UNIVERSAL_EPSILON)
+         ){
+         System.out.println(nienteyDegreePoint isn;t at 90 deg, returning);
+         return false;
+         }
+         
+
+        System.out.println(startPoint.getX()+, +startPoint.getY());
+        System.out.println(ninetyDegreePoint.getX()+, +ninetyDegreePoint.getY());
+        System.out.println(endPoint.getX()+, +endPoint.getY());
+        int angleMultX = startPoint.getX()  endPoint.getX()  -1  1;
+        int angleMultY = startPoint.getY()  endPoint.getY()  -1  1;
+
+        System.out.println(angleMultX);
+        System.out.println(angleMultY);
+        int innerMultX = 0;
+        int innerMultY = 0;
+        if (Math.abs(startPoint.getX() - ninetyDegreePoint.getX())  BoxGameFramework.UNIVERSAL_EPSILON
+                && Math.abs(endPoint.getY() - ninetyDegreePoint.getY())  BoxGameFramework.UNIVERSAL_EPSILON) {
+            if (angleMultX == 1 && angleMultY == 1) {
+                innerMultX = -1;
+                innerMultY = 1;
+            } else if (angleMultX == 1 && angleMultY == -1) {
+                innerMultX = -1;
+                innerMultY = -1;
+            } else if (angleMultX == -1 && angleMultY == -1) {
+                innerMultX = 1;
+                innerMultY = -1;
+            } else {
+                innerMultX = -1;
+                innerMultY = -1;
+            }
+        } else if (Math.abs(startPoint.getY() - ninetyDegreePoint.getY())  BoxGameFramework.UNIVERSAL_EPSILON
+                && Math.abs(endPoint.getX() - ninetyDegreePoint.getX())  BoxGameFramework.UNIVERSAL_EPSILON) {
+            if (angleMultX == 1 && angleMultY == 1) {
+                innerMultX = 1;
+                innerMultY = -1;
+            } else if (angleMultX == 1 && angleMultY == -1) {
+                innerMultX = 1;
+                innerMultY = 1;
+            } else if (angleMultX == -1 && angleMultY == -1) {
+                innerMultX = -1;
+                innerMultY = 1;
+            } else {
+                innerMultX = 1;
+                innerMultY = 1;
+            }
+        } else {
+            System.out.println(No multipliers set; inside anyPointsAreInsideRightTriangle);
+        }
+
+        float xDist = Math.abs(startPoint.getX() - endPoint.getX());
+        float yDist = Math.abs(startPoint.getY() - endPoint.getY());
+        float currentMult = 1;
+
+        int currentBoxNum;
+        float currentXDist;
+        float currentYDist;
+        Coordinates currentHypotenusePoint = new Coordinates();
+        Coordinates currentInnerPoint = new Coordinates();
+
+        for (int i = 1; i  5; i++) {
+            currentMult = 2;
+            currentBoxNum = (int) (1.0f  (currentMult  2));
+            currentXDist = xDist  currentMult;
+            currentYDist = yDist  currentMult;
+            currentHypotenusePoint.setCoordinates(startPoint.getX() + currentXDist  angleMultX, startPoint.getY() + currentYDist  angleMultY);
+            currentInnerPoint.setCoordinates(currentHypotenusePoint.getX() + currentXDist  innerMultX, currentHypotenusePoint.getY() + currentYDist  innerMultY);
+
+            Box.printCoordinates(currentHypotenusePoint);
+            Box.printCoordinates(currentInnerPoint);
+            for (int j = 0; j  currentBoxNum; j++) {
+                if (Box.anyPointsAreInPerfectBox(testPoints, currentHypotenusePoint, currentInnerPoint)) {
+                    System.out.println(PENISISOLFLKSDJFSD);
+                    return true;
+                }
+                currentHypotenusePoint.setCoordinates(currentHypotenusePoint.getX() + 2  currentXDist  angleMultX, currentHypotenusePoint.getY() + 2  currentYDist  angleMultY);
+                currentInnerPoint.setCoordinates(currentHypotenusePoint.getX() + currentXDist  innerMultX, currentHypotenusePoint.getY() + currentYDist  innerMultY);
+                System.out.println(currentHypotenusePoint.getX() + ,  + currentHypotenusePoint.getY());
+                System.out.println(currentInnerPoint.getX() + ,  + currentInnerPoint.getY());
+            }
+        }
+
+        for (Coordinates c  testPoints) {
+            if ((Math.abs(c.getX() - startPoint.getX())  BoxGameFramework.UNIVERSAL_EPSILON && Math.abs(c.getY() - startPoint.getY())  BoxGameFramework.UNIVERSAL_EPSILON)
+                     (Math.abs(c.getX() - endPoint.getX())  BoxGameFramework.UNIVERSAL_EPSILON && Math.abs(c.getY() - endPoint.getY())  BoxGameFramework.UNIVERSAL_EPSILON)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
